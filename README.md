@@ -56,6 +56,7 @@ Substitua dbname, user, password, host e port pelos valores apropriados para seu
     print(comando_sql)
 
 3. NO arquivo consulta_postgres, mude somente o nome da tabela:
+    ```sh
     cur.execute("""
         SELECT column_name, is_nullable, data_type
         FROM information_schema.columns
@@ -64,7 +65,7 @@ Substitua dbname, user, password, host e port pelos valores apropriados para seu
 
 3. Execute o script:
 
- ```sh
+```sh
     python csv_para_sql.py
 ```
 
