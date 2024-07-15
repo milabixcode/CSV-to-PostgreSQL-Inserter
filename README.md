@@ -49,7 +49,18 @@ Substitua dbname, user, password, host e port pelos valores apropriados para seu
 
 1. Prepare o arquivo CSV que deseja converter para comandos SQL de inserção;
 
-2. Modifique csv_para_sql.py para apontar para o caminho correto do CSV e o nome da tabela;
+2. Modifique csv_para_sql.py para apontar para o caminho correto do CSV e o nome da tabela no arquivo script.py:
+    caminho_csv = 'caminho_da_tabela'
+    nome_tabela = 'nome_da_tabela'
+    comando_sql = csv_para_sql(caminho_csv, nome_tabela)
+    print(comando_sql)
+
+3. NO arquivo consulta_postgres, mude somente o nome da tabela:
+    cur.execute("""
+        SELECT column_name, is_nullable, data_type
+        FROM information_schema.columns
+        WHERE table_name = 'nome_da_tabela';
+    """)
 
 3. Execute o script:
 
