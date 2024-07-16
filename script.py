@@ -29,11 +29,22 @@ def tratar_booleano(val):
     return "TRUE" if val else "FALSE"
 
 def csv_para_sql(caminho_csv, nome_tabela):
-    # Lê o arquivo CSV e carrega os dados em um DataFrame do pandas
-    data = pd.read_csv(caminho_csv)
-    
-    # Obter informações da tabela
+     # Obter informações da tabela
     definitions = obter_informacoes_tabela(nome_tabela)
+    
+    # Mapear os tipos de dados para o pandas
+    dtype_map = {}
+    for col, definition in definitions.items():
+        tipo = definition.the_type
+        if tipo in ["character varying", "text"]:
+            dtype_map[col] = str
+        elif tipo == "integer":
+            dtype_map[col] = 'Int64'  # Pandas nullable integer
+        elif tipo == "boolean":
+            dtype_map[col] = bool
+
+    # Lê o arquivo CSV e carrega os dados em um DataFrame do pandas
+    data = pd.read_csv(caminho_csv, dtype=dtype_map)
     
     # Cria a estrutura do comando SQL
     sql_insert = f"INSERT INTO {nome_tabela} ({', '.join(data.columns)}) VALUES\n"
@@ -50,7 +61,7 @@ def csv_para_sql(caminho_csv, nome_tabela):
 
 # Exemplo de uso
 if __name__ == "__main__":
-    caminho_csv = 'caminho_para_tabela
-    nome_tabela = 'nome_tabela'
+    caminho_csv = 'caminho_do_csv'
+    nome_tabela = 'nome_da_tabela'
     comando_sql = csv_para_sql(caminho_csv, nome_tabela)
     print(comando_sql)

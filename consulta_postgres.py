@@ -26,7 +26,7 @@ def obter_informacoes_tabela(postgres):
     cur.execute("""
         SELECT column_name, is_nullable, data_type
         FROM information_schema.columns
-        WHERE table_name = 'nome_tabela';
+        WHERE table_name = 'nome_da_tabela';
     """)
 
     informacoes = cur.fetchall()
